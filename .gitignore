@@ -1,0 +1,7 @@
+/.doit.db.db
+__pycache__/
+.ipynb_checkpoints/
+/controller/*/build/
+/runs/
+/src/
+/simulations/sinusoidal*/*.wnd
