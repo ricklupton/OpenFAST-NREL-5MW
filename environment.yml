@@ -1,11 +1,12 @@
 name: openfast_env
 channels:
+  - nodefaults
   - conda-forge
 dependencies:
-  - openfast
-  - jupyterlab
-  - pandas
-  - matplotlib
-  - doit
+  - jupyterlab==3.5.*
+  - pandas==1.5.*
+  - matplotlib==3.6.*
+  - doit==0.33.*
+  - pip==22.*
   - pip:
       - git+http://github.com/OpenFAST/python-toolbox@e6427b11345b68921fd66024431b8fce25fe3dd0#egg=pyFAST

@@ -66,14 +66,29 @@ Plots the results of the `baseline` simulations with the original controller aga
 
 ## Installation
 
-Use [conda](https://docs.conda.io/en/latest/) to install the Python packages and the [OpenFAST](https://github.com/OpenFAST/openfast/) wind turbine simulation software.
-
-All the necessary packages *should* (...) be listed in the `environment.yml` conda file, so all that should be necessary is to run in this folder:
+Use [conda](https://docs.conda.io/en/latest/) to install the Python packages to set up and analyse the simulations. All the necessary packages *should* (...) be listed in the `environment.yml` conda file, so all that should be necessary is to run in this folder:
 
 ``` shellsession
 conda env create
-conda activate
+conda activate openfast_env
 ```
+
+Each time you open a new terminal, you need to re-run the `conda activate openfast_env` command to activate that conda environment.
+
+### Installing OpenFAST on Mac OS
+
+On Mac OS, the [OpenFAST](https://github.com/OpenFAST/openfast/) wind turbine simulation software can also be installed with conda. With your `openfast_env` conda environment activated, run
+
+```shell
+conda install -c conda-forge openfast
+```
+
+### Installing OpenFAST on Windows
+
+On Windows, OpenFAST is not available via conda so must be downloaded directly from the [GitHub releases page](https://github.com/OpenFAST/openfast/releases/tag/v3.3.0). Download the following files and save them in the same directory as this project.
+
+- `openfast_x64.exe`, saved as `openfast.exe`
+- `TurbSim_x64.exe`, saved as `turbsim.exe`
 
 ## Running simulations
 
