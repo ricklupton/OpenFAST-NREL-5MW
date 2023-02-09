@@ -103,3 +103,13 @@ Other doit tasks take care of:
 You can run all out-of-date simulations using `doit run -v2 -n5`. Here `-v2` tells doit to print all output to the console (you can skip this if you want to see less detail). `-n5` tells doit to run up to 5 tasks in parallel; again you can skip this. 
 
 You can list all the available tasks by running `doit list`, and then see subtasks by running `doit info TASK`. For example one of the subtasks listed by `doit info openfast` is `openfast:steady_wind:ws4.0:5MW_Land_DLL_Steady` which runs the simulation defined in `simulations/steady_wind/5MW_Land_DLL_Steady.fst`, placing the output in `runs/steady_wind/ws4.0/5MW_Land_DLL_Steady.out`.
+
+## Setup for compilation (e.g. of controller)
+
+### Windows
+
+1. Install Visual Studio Community 2019 from https://my.visualstudio.com/Downloads?q=visual%20studio%202019&wt.mc_id=o~msft~vscom~older-downloads
+
+    - In the installer, select the "Desktop development with C++" option in the Workloads tab
+    
+2. Download and install the Intel Fortran Compiler from https://www.intel.com/content/www/us/en/developer/articles/tool/oneapi-standalone-components.html#fortran

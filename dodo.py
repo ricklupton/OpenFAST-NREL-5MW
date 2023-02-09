@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 from doit import create_after
 from doit.action import CmdAction
 from pathlib import Path
@@ -112,7 +113,11 @@ def prepare_discon_compilation(discon_folder : Path):
     """Set up CMake files for the given discon folder."""
     build_folder = discon_folder / "build"
     build_folder.mkdir(exist_ok=True)
-    run(["cmake", ".."], cwd=build_folder)
+    if sys.platform == "win32":
+        cmake_generator = ['-GVisual Studio 16 2019']
+    else:
+        cmake_generator = []  # default
+    run(["cmake", ".."] + cmake_generator, cwd=build_folder)
 
 
 def clean_discon_compilation():
@@ -132,17 +137,29 @@ def task_prepare_discon_compilation():
         }
 
 
+def compile_discon(build_folder):
+    if sys.platform == "win32":
+        print("--------------------------------------------------")
+        print("Open Visual Studio to compile the DISCON...")
+        print("(run 'start %s\\DISCON.sln' in the terminal)" % build_folder)
+        print("--------------------------------------------------")
+    else:
+        run(["make"], cwd=build_folder)
+
+
+
 def task_compile_discon():
     controller_subfolders = [x for x in Path("controller").iterdir() if x.is_dir()]
     for discon_folder in controller_subfolders:
         yield {
             "name": discon_folder.name,
-            "file_dep": [
-                discon_folder / "build" / "Makefile",
-                discon_folder / "DISCON.F90"
-            ],
+            "file_dep": (
+                [discon_folder / "DISCON.F90"] +
+                ([discon_folder / "build" / "Makefile"] if sys.platform != "win32" else [])
+            ),
             "targets": [discon_folder / "build" / "DISCON.dll"],
-            "actions": [CmdAction("make", cwd=discon_folder / "build")],
+            "verbosity": 2,
+            "actions": [(compile_discon, [discon_folder / "build"])],
         }
 
 
