@@ -8,5 +8,6 @@ dependencies:
   - matplotlib==3.6.*
   - doit==0.33.*
   - pip==22.*
+  - cmake==3.*
   - pip:
-      - git+http://github.com/OpenFAST/python-toolbox@e6427b11345b68921fd66024431b8fce25fe3dd0#egg=pyFAST
+      - git+http://github.com/OpenFAST/python-toolbox@787092df79a558b849c45aa9c53adfb737beb386#egg=pyFAST
