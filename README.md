@@ -80,12 +80,12 @@ Each time you open a new terminal, you need to re-run the `conda activate openfa
 On Mac OS, the [OpenFAST](https://github.com/OpenFAST/openfast/) wind turbine simulation software can also be installed with conda. With your `openfast_env` conda environment activated, run
 
 ```shell
-conda install -c conda-forge openfast
+conda install -c conda-forge 'openfast==3.0.*'
 ```
 
 ### Installing OpenFAST on Windows
 
-On Windows, OpenFAST is not available via conda so must be downloaded directly from the [GitHub releases page](https://github.com/OpenFAST/openfast/releases/tag/v3.3.0). Download the following files and save them in the same directory as this project.
+On Windows, OpenFAST is not available via conda so must be downloaded directly from the [GitHub releases page](https://github.com/OpenFAST/openfast/releases/tag/v3.0.0). Download the following files and save them in the same directory as this project.
 
 - `openfast_x64.exe`, saved as `openfast.exe`
 - `TurbSim_x64.exe`, saved as `turbsim.exe`
@@ -105,6 +105,14 @@ You can run all out-of-date simulations using `doit run -v2 -n5`. Here `-v2` tel
 You can list all the available tasks by running `doit list`, and then see subtasks by running `doit info TASK`. For example one of the subtasks listed by `doit info openfast` is `openfast:steady_wind:ws4.0:5MW_Land_DLL_Steady` which runs the simulation defined in `simulations/steady_wind/5MW_Land_DLL_Steady.fst`, placing the output in `runs/steady_wind/ws4.0/5MW_Land_DLL_Steady.out`.
 
 ## Setup for compilation (e.g. of controller)
+
+### Linux (including WSL)
+
+Install required tools -- run this in your terminal (Ubuntu):
+
+``` shellsession
+sudo apt install git cmake gfortran g++
+```
 
 ### Windows
 
