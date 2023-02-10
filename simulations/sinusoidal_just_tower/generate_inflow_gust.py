@@ -55,5 +55,5 @@ if __name__ == "__main__":
     write_uniform_gust("wind_8ms_3ms_1rads.wnd", *sinusoidal_wind(8, 3, 1, tmax))
     write_uniform_gust("wind_8ms_4ms_1rads.wnd", *sinusoidal_wind(8, 4, 1, tmax))
     write_uniform_gust("wind_8ms_5ms_1rads.wnd", *sinusoidal_wind(8, 5, 1, tmax))
-    write_uniform_gust("wind_8ms_5ms_1rads.wnd", *sinusoidal_wind(8, 5, 1, tmax))
-    write_uniform_gust("wind_8ms_5ms_1rads.wnd", *sinusoidal_wind(8, 5, 1, tmax))
+    write_uniform_gust("wind_8ms_6ms_1rads.wnd", *sinusoidal_wind(8, 6, 1, tmax))
+    write_uniform_gust("wind_8ms_7ms_1rads.wnd", *sinusoidal_wind(8, 7, 1, tmax))
