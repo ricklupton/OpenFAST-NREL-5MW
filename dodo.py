@@ -15,6 +15,12 @@ import re
 NUM_SEEDS = 1
 STEADY_WIND_SPEEDS = [4, 6, 8, 10, 11.5, 12.5, 14, 16]
 
+# Adjust this to match the names of controllers
+CONTROLLER_NAMES = [
+    "T{duration}s{power:+d}"
+    for duration in [0, 60, ...]
+    for power in [-10, -25, ...]
+]
 
 ############################################################
 # Input file rewriting helpers
@@ -172,6 +178,7 @@ def task_compile_discon():
 FILENAME_BTS_REGEX = re.compile(r'^"[^"]+"([ \t]+FileName_BTS )', re.MULTILINE)
 HWINDSPEED_REGEX = re.compile(r'^[ \t]*[0-9.]+([ \t]+HWindSpeed )', re.MULTILINE)
 ROTSPEED_REGEX = re.compile(r'^[ \t]*[0-9.]+([ \t]+RotSpeed )', re.MULTILINE)
+DLL_FILENAME_REGEX = re.compile(r'^"[^"]+"([ \t]+DLL_FileName )', re.MULTILINE)
 
 
 def copy_fast_input_files_with_seed(source_files, target_folder, seed):
@@ -201,6 +208,21 @@ def copy_fast_input_files_with_rotor_speed(source_files, target_folder, rotor_sp
         if source.suffix == ".dat" and "ElastoDyn" in source.name and "Tower" not in source.name:
             subs = [
                 (ROTSPEED_REGEX, f'{rotor_speed:02.1f}\\1', 1),
+            ]
+        else:
+            subs = []
+        copy_input_file_with_subs(source, target_folder / source.name, subs)
+        
+        
+def copy_fast_input_files_with_seed_and_dll(source_files, target_folder, seed, dll):
+    for source in source_files:
+        if source.suffix == ".dat" and "ServoDyn" in source.name:
+            subs = [
+                (DLL_FILENAME_REGEX, f'"../../../controller/{dll}/build/DISCON.dll"\\1', 1),
+            ]
+        elif source.suffix == ".dat" and "InflowWind" in source.name:
+            subs = [
+                (FILENAME_BTS_REGEX, f'"../../../runs/wind_seeds/90m_12mps_twr_seed{seed:02d}.bts"\\1', 1),
             ]
         else:
             subs = []
@@ -280,13 +302,17 @@ def task_prepare_fast_input():
                 "name": simulation_folder.name,
                 "file_dep": deps,
                 "targets": [
-                    target_folder / f"seed{i:02d}" / p.name
+                    target_folder / f"seed{i:02d}" / f"controller_{dll}" / p.name
                     for i in range(NUM_SEEDS)
+                    for dll in CONTROLLER_NAMES
                     for p in deps
                 ],
                 "actions": [
-                    (copy_fast_input_files_with_seed, [deps, target_folder / f"seed{i:02d}", i], {})
+                    (
+                        copy_fast_input_files_with_seed_and_dll, [deps, target_folder / f"seed{i:02d}", i, dll], {}
+                    )
                     for i in range(NUM_SEEDS)
+                    for dll in CONTROLLER_NAMES
                 ],
             }
 
